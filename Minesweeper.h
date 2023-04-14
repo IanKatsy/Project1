@@ -13,25 +13,38 @@
 
 #ifdef CL_OUT_WRK
 
-#define ONE     "\e[0;34m1\e[0;0m"
-#define TWO     "\e[0;32m2\e[0;0m"
-#define THREE   "\e[0;31m3\e[0;0m"
-#define FOUR    "\e[0;94m4\e[0;0m"
-#define FIVE    "\e[0;91m5\e[0;0m"
-#define SIX     "\e[0;36m6\e[0;0m"
-#define SEVEN   "\e[0;35m7\e[0;0m"
-#define EIGHT   "\e[0;37m8\e[0;0m"
+#define ANSI_RESET_ALL          "\x1b[0m"
 
-#else
+#define ANSI_COLOR_BLACK        "\x1b[30m"
+#define ANSI_COLOR_RED          "\x1b[31m"
+#define ANSI_COLOR_GREEN        "\x1b[32m"
+#define ANSI_COLOR_YELLOW       "\x1b[33m"
+#define ANSI_COLOR_BLUE         "\x1b[34m"
+#define ANSI_COLOR_MAGENTA      "\x1b[35m"
+#define ANSI_COLOR_CYAN         "\x1b[36m"
+#define ANSI_COLOR_WHITE        "\x1b[37m"
 
-#define ONE     "1"
-#define TWO     "2"
-#define THREE   "3"
-#define FOUR    "4"
-#define FIVE    "5"
-#define SIX     "6"
-#define SEVEN   "7"
-#define EIGHT   "8"
+#define ANSI_BACKGROUND_BLACK   "\x1b[40m"
+#define ANSI_BACKGROUND_RED     "\x1b[41m"
+#define ANSI_BACKGROUND_GREEN   "\x1b[42m"
+#define ANSI_BACKGROUND_YELLOW  "\x1b[43m"
+#define ANSI_BACKGROUND_BLUE    "\x1b[44m"
+#define ANSI_BACKGROUND_MAGENTA "\x1b[45m"
+#define ANSI_BACKGROUND_CYAN    "\x1b[46m"
+#define ANSI_BACKGROUND_WHITE   "\x1b[47m"
+
+#define ANSI_STYLE_BOLD         "\x1b[1m"
+#define ANSI_STYLE_ITALIC       "\x1b[3m"
+#define ANSI_STYLE_UNDERLINE    "\x1b[4m"
+
+#define MS_ONE      ANSI_COLOR_BLUE                         "1"     ANSI_RESET_ALL
+#define MS_TWO      ANSI_COLOR_GREEN                        "2"     ANSI_RESET_ALL
+#define MS_THREE    ANSI_COLOR_RED                          "3"     ANSI_RESET_ALL
+#define MS_FOUR     ANSI_COLOR_BLUE     ANSI_STYLE_BOLD     "4"     ANSI_RESET_ALL
+#define MS_FIVE     ANSI_COLOR_RED      ANSI_STYLE_BOLD     "5"     ANSI_RESET_ALL
+#define MS_SIX      ANSI_COLOR_CYAN                         "6"     ANSI_RESET_ALL
+#define MS_SEVEN    ANSI_COLOR_MAGENTA                      "7"     ANSI_RESET_ALL
+#define MS_EIGHT    ANSI_COLOR_WHITE                        "8"     ANSI_RESET_ALL
 
 #endif /*CL_OUT_WRK*/
 
@@ -49,16 +62,20 @@
 #include <stdbool.h>
 #include <ctype.h>
 
-typedef struct cell_c {
+typedef struct minesweeper_cell {
     char val;
     bool isFound;
     bool isMarked;
 } CELL;
 
-typedef struct command_g {
+typedef struct coordinate_tuple {
+    int cordY;
+    int cordX;
+} COORDS;
+
+typedef struct command_return {
     int cmdCode;
-    int posX;
-    int posY;
+    COORDS cords;
 } CMD;
 
 #define random() {(float) rand() / (float) RAND_MAX + 1}
@@ -71,10 +88,10 @@ void printGrid(CELL **grid, int rows, int cons);
 
 void mark(CELL **grid, int cordY, int cordX);
 
-CMD parseStr(const char *str);
+CMD parseStr(char *str);
 
-int handleCords(int *cordTwo, const char *str); /*inside parseStr.c*/
+COORDS handleCoords(char *str); /*inside parseStr.c*/
 
-void println(char *printBuff, char *color);
+#define __BAD_RET_COORDS {printf("Format: 'command(cordY, cordX)'");return _bad_ret;}
 
 #endif /*PROJECT1_MINESWEEPER_H*/

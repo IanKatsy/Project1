@@ -24,21 +24,21 @@ void printGrid(CELL **grid, int rows, int cons) {
                 switch (grid[i][j].val) {
                     case CHAR_EMPTY: printf("%*c", WIDTH_DEFAULT, CHAR_EMPTY); break;
 
-                    case '1': printf("%*s", WIDTH_DEFAULT, ONE);    break;
+                    case '1': printf("%*s", WIDTH_DEFAULT, MS_ONE);    break;
 
-                    case '2': printf("%*s", WIDTH_DEFAULT, TWO);    break;
+                    case '2': printf("%*s", WIDTH_DEFAULT, MS_TWO);    break;
 
-                    case '3': printf("%*s", WIDTH_DEFAULT, THREE);  break;
+                    case '3': printf("%*s", WIDTH_DEFAULT, MS_THREE);  break;
 
-                    case '4': printf("%*s", WIDTH_DEFAULT, FOUR);   break;
+                    case '4': printf("%*s", WIDTH_DEFAULT, MS_FOUR);   break;
 
-                    case '5': printf("%*s", WIDTH_DEFAULT, FIVE);   break;
+                    case '5': printf("%*s", WIDTH_DEFAULT, MS_FIVE);   break;
 
-                    case '6': printf("%*s", WIDTH_DEFAULT, SIX);    break;
+                    case '6': printf("%*s", WIDTH_DEFAULT, MS_SIX);    break;
 
-                    case '7': printf("%*s", WIDTH_DEFAULT, SEVEN);  break;
+                    case '7': printf("%*s", WIDTH_DEFAULT, MS_SEVEN);  break;
 
-                    case '8': printf("%*s", WIDTH_DEFAULT, EIGHT);  break;
+                    case '8': printf("%*s", WIDTH_DEFAULT, MS_EIGHT);  break;
 
                     case CHAR_IS_BOMB:                                      break;
                 }

@@ -1,6 +1,6 @@
 #include "../Minesweeper.h"
 
-CMD parseStr(const char *str) {
+CMD parseStr(char *str) {
     CMD command_p = {
         0, 0, 0
     };
@@ -22,25 +22,20 @@ CMD parseStr(const char *str) {
                 break;
 
             if (!strncmp(str, "open", cmdLen)) {
-                getY = handleCords(&getX, ptr);
 
                 command_p.cmdCode = 1;
-                command_p.posX = getX;
-                command_p.posY = getY;
+                command_p.cords = handleCoords(ptr);
 
                 break;
             }
 
             if (!strncmp(str, "mark", cmdLen)) {
-                getY = handleCords(&getX, ptr);
 
                 command_p.cmdCode = 2;
-                command_p.posX = getX;
-                command_p.posY = getY;
+                command_p.cords = handleCoords(ptr);
 
                 break;
             }
-
 
             break;
         case 5:
@@ -52,28 +47,90 @@ CMD parseStr(const char *str) {
     return command_p;
 }
 
-int handleCords(int *cordTwo, const char *str) {
+COORDS handleCoords(char *str) {
 
-    int cordX, cordY, digCntr = 0, parCntr = 0;
+    /*
+     * A very sad mess :(
+     * */
+
+    const COORDS _bad_ret = {
+            -1,
+            -1
+    };
+
+    COORDS coords = {
+            -1,
+            -1
+    };
+
+    int digCntr = 0, parCntr = 0;
+    size_t buffOverflowCheck = strlen(str);
     char *ptr = str;
+    bool postParenthesesHandle = false;
 
-    while (!isdigit(*ptr)) {
+    /*
+     * Check for first parentheses
+     * */
 
+    while (!isdigit(*ptr) && buffOverflowCheck != ptr - str) {
         if (*ptr == '(')
             parCntr++;
-
         ptr++;
     }
 
-    if (parCntr != 1) {
-        printf("Format: 'command(cordY, cordX)'");
-        *cordTwo = -1;
-        return -1;
-    }
+    /*
+     * Bad input handle
+     * */
+
+    if (parCntr != 1 || buffOverflowCheck == ptr - str) __BAD_RET_COORDS
+
+    /*
+     * First coordinate
+     * */
 
     digCntr++;
+    coords.cordY = (int) strtol(ptr, &ptr, 10);
 
-    cordY = (int) strtol(ptr, NULL, 10);
+    while (*ptr != ',' || buffOverflowCheck != ptr - str)
+        ptr++;
 
-    return cordY;
+    /*
+     * Bad input handle
+     * */
+
+    if (buffOverflowCheck == ptr - str) __BAD_RET_COORDS
+
+    /*
+     * Second coordinate
+     * */
+
+    digCntr++;
+    coords.cordX = (int) strtol(ptr, &ptr, 10);
+
+    /*
+     * Check for second parentheses
+     * */
+
+    while (!isdigit(*ptr) && buffOverflowCheck != ptr - str) {
+        if (*ptr == ')')
+            parCntr++;
+        ptr++;
+    }
+
+    /*
+     * Bad input handle
+     * */
+
+    if (parCntr != 2 || buffOverflowCheck == ptr - str) __BAD_RET_COORDS
+
+    if (digCntr != 2) __BAD_RET_COORDS
+
+    while (buffOverflowCheck != ptr - str) {
+        if (isspace(*ptr) || isblank(*ptr))
+            postParenthesesHandle = true;
+    }
+
+    if (postParenthesesHandle) __BAD_RET_COORDS
+
+    return coords;
 }
