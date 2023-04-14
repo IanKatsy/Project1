@@ -1,4 +1,4 @@
-#include "Minesweeper.h"
+#include "../Minesweeper.h"
 
 void printGrid(CELL **grid, int rows, int cons) {
 

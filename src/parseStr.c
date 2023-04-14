@@ -1,4 +1,4 @@
-#include "Minesweeper.h"
+#include "../Minesweeper.h"
 
 CMD parseStr(const char *str) {
     CMD command_p = {
@@ -15,12 +15,7 @@ CMD parseStr(const char *str) {
     size_t cmdLen = ptr - str;
 
     switch (cmdLen) {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-            command_p.cmdCode = -1;
-            break;
+
         case 4:
 
             if (!strncmp(str, "exit", cmdLen))
@@ -47,11 +42,11 @@ CMD parseStr(const char *str) {
             }
 
 
-
             break;
         case 5:
             break;
         default:
+            command_p.cmdCode = -1;
     }
 
     return command_p;

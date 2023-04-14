@@ -1,4 +1,4 @@
-#include "Minesweeper.h"
+#include "../Minesweeper.h"
 
 char *readString(char *msg) {
 

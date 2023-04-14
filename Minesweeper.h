@@ -75,4 +75,6 @@ CMD parseStr(const char *str);
 
 int handleCords(int *cordTwo, const char *str); /*inside parseStr.c*/
 
+void println(char *printBuff, char *color);
+
 #endif /*PROJECT1_MINESWEEPER_H*/

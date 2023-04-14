@@ -1,4 +1,4 @@
-#include "minesweeper.h"
+#include "../Minesweeper.h"
 
 void mark(CELL **grid, int cordY, int cordX) { /* is used to mark and unmark a cell */
 
