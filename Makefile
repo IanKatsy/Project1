@@ -11,7 +11,7 @@ all: $(OBJS) Minesweeper
 	rm Minesweeper
 
 Minesweeper: $(OBJS)
-	$(CC) -o Minesweeper $(OBJS)
+	$(CC) $(OBJS) Minesweeper.c -o Minesweeper
 
 object: $(SRC)
 	$(CC) -c $(SRC)

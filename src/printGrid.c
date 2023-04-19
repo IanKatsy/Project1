@@ -14,6 +14,7 @@ void printGrid(CELL **grid, int rows, int cons) {
     for (i = 0; i < rows; i++) {
 
         printf("%*d| ", WIDTH_DEFAULT, i + 1);
+        printf(":)");
 
         for (j = 0; j < cons; j++) {
             if (grid[i][j].isMarked)  {

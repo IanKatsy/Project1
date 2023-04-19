@@ -1,7 +1,7 @@
 #ifndef PROJECT1_MINESWEEPER_H
 #define PROJECT1_MINESWEEPER_H
 
-#define CL_OUT_WRK
+#define MS_DEBUG_INFO
 
 #define MS_MIN_GRID_X 9
 #define MS_MIN_GRID_Y 9
@@ -10,6 +10,8 @@
 #define MS_MAX_GRID_X 30
 #define MS_MAX_GRID_Y 24
 #define MS_MAX_MINE 667
+
+#define CL_OUT_WRK
 
 #ifdef CL_OUT_WRK
 
@@ -92,6 +94,9 @@ CMD parseStr(char *str);
 
 COORDS handleCoords(char *str); /*inside parseStr.c*/
 
-#define __BAD_RET_COORDS {printf("Format: 'command(cordY, cordX)'");return _bad_ret;}
+#define BAD_RET_COORDS { \
+    printf("Format: 'command(cordY, cordX)'"); \
+    return _bad_ret;     \
+    }
 
 #endif /*PROJECT1_MINESWEEPER_H*/

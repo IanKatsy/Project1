@@ -17,18 +17,31 @@ int main(void) {
 
     srand(time(NULL));
 
+#ifdef MS_DEBUG_INFO
+
+    printf("%*s", WIDTH_DEFAULT, MS_ONE);
+    printf("%*s", WIDTH_DEFAULT, MS_TWO);
+    printf("%*s", WIDTH_DEFAULT, MS_THREE);
+    printf("%*s", WIDTH_DEFAULT, MS_FOUR);
+    printf("%*s", WIDTH_DEFAULT, MS_FIVE);
+    printf("%*s", WIDTH_DEFAULT, MS_SIX);
+    printf("%*s", WIDTH_DEFAULT, MS_SEVEN);
+    printf("%*s", WIDTH_DEFAULT, MS_EIGHT);
+
+#endif
+
     /*
      * Gets the dimensions of the grid,
      * limits based on Microsoft's minesweeper from Windows Xp.
      * */
 
     do {
-        printf("Enter number of Rows (%d < R < %d): ", MS_MIN_GRID_Y, MS_MAX_GRID_Y);
+        printf("Enter number of Rows (%d <= R <= %d): ", MS_MIN_GRID_Y, MS_MAX_GRID_Y);
         scanf("%d", &dimV);
     } while (dimV < MS_MIN_GRID_Y || dimV > MS_MAX_GRID_Y);
 
     do {
-        printf("Enter number of Columns (%d < C < %d): ", MS_MIN_GRID_X, MS_MAX_GRID_X);
+        printf("Enter number of Columns (%d <= C <= %d): ", MS_MIN_GRID_X, MS_MAX_GRID_X);
         scanf("%d", &dimH);
     } while (dimV < MS_MIN_GRID_X || dimV > MS_MAX_GRID_X);
 
@@ -36,7 +49,7 @@ int main(void) {
      * malloc() a dimV * dimH 2 dimensional array.
      * */
 
-    CELL **table = malloc(sizeof (CELL*) * dimV);
+    CELL **table = malloc(dimV * sizeof(CELL *));
     if (table == NULL) {
         perror("malloc() returned a NULL pointer");
         exit(EXIT_FAILURE);
@@ -57,7 +70,7 @@ int main(void) {
     CMD cmd = parseStr(getCmd);
 
     if (!cmd.cmdCode) {
-        for (i = 0; i < dimV; i++){
+        for (i = 0; i < dimV; i++) {
             free(table[i]);
         }
         free(*table);
