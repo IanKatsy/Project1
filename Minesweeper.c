@@ -28,6 +28,8 @@ int main(void) {
     printf("%*s", WIDTH_DEFAULT, MS_SEVEN);
     printf("%*s", WIDTH_DEFAULT, MS_EIGHT);
 
+    putchar('\n');
+
 #endif
 
     /*

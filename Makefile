@@ -6,6 +6,10 @@ OBJS=$(patsubst %.c,%.o,$(SRC))
 .PHONY: all
 all: $(OBJS) Minesweeper
 
+.run: Minesweeper
+	./Minesweeper
+	rm Minesweeper
+
 .clean: all
 	rm $(OBJS)
 	rm Minesweeper
