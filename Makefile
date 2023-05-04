@@ -1,7 +1,6 @@
 CC=gcc
 
-SRC=$(wildcard src/*.c)
-OBJS=$(patsubst %.c,%.o,$(SRC))
+SRC= src/cheat.c src/levelHandlers.c src/mark.c src/parseStr.c src/printGrid.c src/readString.c src/util.c
 
 .PHONY: all
 all: $(OBJS) Minesweeper
@@ -10,12 +9,8 @@ all: $(OBJS) Minesweeper
 	./Minesweeper
 	rm Minesweeper
 
-.clean: all
-	rm $(OBJS)
+.clean:
 	rm Minesweeper
 
-Minesweeper: $(OBJS)
-	$(CC) $(OBJS) Minesweeper.c -o Minesweeper
-
-object: $(SRC)
-	$(CC) -c $(SRC)
+Minesweeper:
+	$(CC) Minesweeper.c $(SRC) -o Minesweeper

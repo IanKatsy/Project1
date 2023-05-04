@@ -13,23 +13,23 @@
 int main(void) {
 
     int i, dimV, dimH;
-    char *getCmd;
+    char *getCmd, *level;
 
     srand(time(NULL));
 
 #ifdef MS_DEBUG_INFO
+    {
+        printf("%*s", WIDTH_DEFAULT, MS_ONE);
+        printf("%*s", WIDTH_DEFAULT, MS_TWO);
+        printf("%*s", WIDTH_DEFAULT, MS_THREE);
+        printf("%*s", WIDTH_DEFAULT, MS_FOUR);
+        printf("%*s", WIDTH_DEFAULT, MS_FIVE);
+        printf("%*s", WIDTH_DEFAULT, MS_SIX);
+        printf("%*s", WIDTH_DEFAULT, MS_SEVEN);
+        printf("%*s", WIDTH_DEFAULT, MS_EIGHT);
 
-    printf("%*s", WIDTH_DEFAULT, MS_ONE);
-    printf("%*s", WIDTH_DEFAULT, MS_TWO);
-    printf("%*s", WIDTH_DEFAULT, MS_THREE);
-    printf("%*s", WIDTH_DEFAULT, MS_FOUR);
-    printf("%*s", WIDTH_DEFAULT, MS_FIVE);
-    printf("%*s", WIDTH_DEFAULT, MS_SIX);
-    printf("%*s", WIDTH_DEFAULT, MS_SEVEN);
-    printf("%*s", WIDTH_DEFAULT, MS_EIGHT);
-
-    putchar('\n');
-
+        putchar('\n');
+    }
 #endif
 
     /*
@@ -40,44 +40,80 @@ int main(void) {
     do {
         printf("Enter number of Rows (%d <= R <= %d): ", MS_MIN_GRID_Y, MS_MAX_GRID_Y);
         scanf("%d", &dimV);
+        clearStdin();
     } while (dimV < MS_MIN_GRID_Y || dimV > MS_MAX_GRID_Y);
 
     do {
         printf("Enter number of Columns (%d <= C <= %d): ", MS_MIN_GRID_X, MS_MAX_GRID_X);
         scanf("%d", &dimH);
+        clearStdin();
     } while (dimV < MS_MIN_GRID_X || dimV > MS_MAX_GRID_X);
 
-    /*
-     * malloc() a dimV * dimH 2 dimensional array.
-     * */
+    do {
 
-    CELL **table = malloc(dimV * sizeof(CELL *));
-    if (table == NULL) {
-        perror("malloc() returned a NULL pointer");
-        exit(EXIT_FAILURE);
-    }
+         level = readString("Enter the starting level\n"
+                   "Easy, Normal, Hard, Impossible: ");
 
-    for (i = 0; i < dimV; i++) {
-        table[i] = malloc(sizeof(CELL) * dimH);
-        if (table[i] == NULL) {
-            perror("malloc() returned a NULL pointer");
-            exit(EXIT_FAILURE);
+        strToUpper(level);
+
+        switch (strlen(level)) {
+            case 4:
+                if (!strcmp(level, LV_EASY)) {
+                    levelCurrent = 1;
+                    break;
+                }
+
+                if (!strcmp(level, LV_HARD)) {
+                    levelCurrent = 3;
+                    break;
+                }
+
+                printf("Available levels are: "
+                       "\n Easy, Normal, Hard, Impossible.");
+
+                break;
+
+            case 6:
+                if (!strcmp(level, LV_NORM)) {
+                    levelCurrent = 2;
+                    break;
+                }
+
+                printf("Available levels are: "
+                       "\n Easy, Normal, Hard, Impossible.");
+
+                break;
+
+            case 10:
+                if (!strcmp(level, LV_IMPB)) {
+                    levelCurrent = 4;
+                    break;
+                }
+
+                printf("Available levels are: "
+                       "\n Easy, Normal, Hard, Impossible.");
+
+                break;
+            default:
+                printf("Available levels are: "
+                       "\n Easy, Normal, Hard, Impossible.");
         }
-    }
+
+    } while (!levelCurrent);
 
     printGrid(NULL, dimV, dimH);
 
-    getCmd = readString("0 Blocks are open!\nMake your move(s): ");
+    getCmd = readString("0 Blocks are open!\n"
+                        "Make your move(s): ");
 
     CMD cmd = parseStr(getCmd);
 
     if (!cmd.cmdCode) {
-        for (i = 0; i < dimV; i++) {
-            free(table[i]);
-        }
-        free(*table);
-        free(getCmd);
         return EXIT_SUCCESS;
+    }
+
+    for ( ; ; ) {
+        CELL **grid = genLevel(dimV, dimH, levelCurrent);
     }
 
 }

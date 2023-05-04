@@ -1,7 +1,13 @@
 #ifndef PROJECT1_MINESWEEPER_H
 #define PROJECT1_MINESWEEPER_H
 
-#define MS_DEBUG_INFO
+#define MS_DEBUG_INFO 1
+
+#if MS_DEBUG_INFO
+
+#define CELL_DEBUG_SET
+
+#endif
 
 #define MS_MIN_GRID_X 9
 #define MS_MIN_GRID_Y 9
@@ -56,6 +62,11 @@
 
 #define WIDTH_DEFAULT 2
 
+#define LV_EASY "EASY"
+#define LV_NORM "NORMAL"
+#define LV_HARD "HARD"
+#define LV_IMPB "IMPOSSIBLE"
+
 /* Includes */
 #include <stdlib.h>
 #include <stdio.h>
@@ -63,6 +74,9 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
+//#include <math.h>
+
+int levelCurrent = 0;
 
 typedef struct minesweeper_cell {
     char val;
@@ -80,15 +94,31 @@ typedef struct command_return {
     COORDS cords;
 } CMD;
 
-#define random() {(float) rand() / (float) RAND_MAX + 1}
+#define random() (float) rand() / (float) RAND_MAX + 1
 
 char *readString(char *msg);
 
-void clearScreen(void);
+void clearScreen(void); /*util.c*/
 
-void printGrid(CELL **grid, int rows, int cons);
+void clearStdin(void); /*util.c*/
+
+void strToUpper(char *string); /*util.c*/
+
+int roundCstm(double x); /*util.c*/
+
+void printGrid(CELL **grid, int rows, int cols);
 
 void mark(CELL **grid, int cordY, int cordX);
+
+void cheat(CELL **grid, int cordY, int cordX, bool reset);
+
+/*
+ *  Global cheat limit table, too many args on cheat.
+ * */
+
+int cheatMap[] = {
+        5, 3, 1, 0
+};
 
 CMD parseStr(char *str);
 
@@ -98,5 +128,24 @@ COORDS handleCoords(char *str); /*inside parseStr.c*/
     printf("Format: 'command(cordY, cordX)'"); \
     return _bad_ret;     \
     }
+
+CELL **genLevel(int dimV, int dimH, int level);
+
+#define LEVEL_STEP 5
+
+CELL CELL_EMPTY = {'.', false, false};
+
+CELL CELL_DEBUG = {'.', true, false};
+
+#ifdef CELL_DEBUG_SET
+
+#define CELL_SET CELL_DEBUG;
+
+#else
+
+#define CELL_SET CELL_EMPTY;
+
+#endif
+void freeGrid(CELL **grid, int dimV, int dimH, int level);
 
 #endif /*PROJECT1_MINESWEEPER_H*/

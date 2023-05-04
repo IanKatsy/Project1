@@ -1,0 +1,26 @@
+#include "../Minesweeper.h"
+
+void clearScreen(void) {
+    system("clear");
+}
+
+void clearStdin(void) {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
+}
+
+void strToUpper(char *string) {
+
+    size_t len = strlen(string);
+    int i;
+
+    for (i = 0; i < len; i++) {
+        *(string + i) = (char) toupper(*(string + i));
+    }
+
+}
+
+int roundCstm(double x) {
+    return x - (int) x < 0.5 ? (int) x : (int) x + 1;
+}

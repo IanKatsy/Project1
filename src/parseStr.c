@@ -86,7 +86,8 @@ COORDS handleCoords(char *str) {
      * Bad input handle
      * */
 
-    if (parCntr != 1 || buffOverflowCheck == ptr - str) BAD_RET_COORDS
+    if (parCntr != 1 || buffOverflowCheck == ptr - str)
+        BAD_RET_COORDS
 
     /*
      * First coordinate
@@ -102,7 +103,8 @@ COORDS handleCoords(char *str) {
      * Bad input handle
      * */
 
-    if (buffOverflowCheck == ptr - str) BAD_RET_COORDS
+    if (buffOverflowCheck == ptr - str)
+        BAD_RET_COORDS
 
     /*
      * Second coordinate
@@ -129,16 +131,19 @@ COORDS handleCoords(char *str) {
      * Bad input handle
      * */
 
-    if (parCntr != 2 || buffOverflowCheck == ptr - str) BAD_RET_COORDS
+    if (parCntr != 2 || buffOverflowCheck == ptr - str)
+        BAD_RET_COORDS
 
-    if (digCntr != 2) BAD_RET_COORDS
+    if (digCntr != 2)
+        BAD_RET_COORDS
 
     while (buffOverflowCheck != ptr - str) {
         if (!isspace(*ptr) && !isblank(*ptr))
             postParenthesesHandle = true;
     }
 
-    if (postParenthesesHandle) BAD_RET_COORDS
+    if (postParenthesesHandle)
+        BAD_RET_COORDS
 
     return coords;
 }
