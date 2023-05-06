@@ -1,13 +1,13 @@
 #include "../Minesweeper.h"
 
-void mark(CELL **grid, int cordY, int cordX) { /* is used to mark and unmark a cell */
+void markCell(CELL **grid, COORDS coords) { /* is used to mark and unmark a cell */
 
-    if (grid[cordY][cordX].isMarked) {
-        printf("Removed mark at: (%d, %d)!\n", cordY, cordX);
+    if (grid[coords.cordY][coords.cordX].isMarked) {
+        printf("Removed mark at: (%d, %d)!\n", coords.cordY, coords.cordX);
     } else {
-        printf("Marked position (%d, %d). Use mark() again to remove the mark!\n", cordY, cordX);
+        printf("Marked position (%d, %d). Use mark() again to remove the mark!\n", coords.cordY, coords.cordX);
     }
 
-    grid[cordY][cordX].isMarked = !grid[cordY][cordX].isMarked;
+    grid[coords.cordY][coords.cordX].isMarked = !grid[coords.cordY][coords.cordX].isMarked;
 
 }
