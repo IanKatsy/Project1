@@ -74,9 +74,9 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
-//#include <math.h>
 
-int levelCurrent = 0;
+
+extern int levelCurrent, dimV, dimH;
 
 typedef struct minesweeper_cell {
     char val;
@@ -106,36 +106,38 @@ void strToUpper(char *string); /*util.c*/
 
 int roundCstm(double x); /*util.c*/
 
-void printGrid(CELL **grid, int rows, int cols);
+void printGrid(CELL **grid);
 
-void mark(CELL **grid, int cordY, int cordX);
+void explosion(CELL **grid);
 
-void cheat(CELL **grid, int cordY, int cordX, bool reset);
+bool openCell(CELL **grid, COORDS coords);
+
+void markCell(CELL **grid, COORDS coords);
+
+void cheat(CELL **grid, COORDS coords, bool reset);
 
 /*
  *  Global cheat limit table, too many args on cheat.
  * */
 
-int cheatMap[] = {
-        5, 3, 1, 0
-};
+extern int cheatMap[];
 
 CMD parseStr(char *str);
 
 COORDS handleCoords(char *str); /*inside parseStr.c*/
 
 #define BAD_RET_COORDS { \
-    printf("Format: 'command(cordY, cordX)'"); \
+    printf("Format: 'command(cordY, cordX)', coords must be within level bounds!\n"); \
     return _bad_ret;     \
     }
 
-CELL **genLevel(int dimV, int dimH, int level);
+CELL **genLevel(COORDS coords);
 
 #define LEVEL_STEP 5
 
-CELL CELL_EMPTY = {'.', false, false};
+extern CELL CELL_EMPTY;
 
-CELL CELL_DEBUG = {'.', true, false};
+extern CELL CELL_DEBUG;
 
 #ifdef CELL_DEBUG_SET
 
@@ -146,6 +148,9 @@ CELL CELL_DEBUG = {'.', true, false};
 #define CELL_SET CELL_EMPTY;
 
 #endif
-void freeGrid(CELL **grid, int dimV, int dimH, int level);
+
+void freeGrid(CELL **grid);
+
+int countOpenCell(CELL **grid);
 
 #endif /*PROJECT1_MINESWEEPER_H*/

@@ -1,8 +1,7 @@
 #include "../Minesweeper.h"
 
-CELL **genLevel(int dimV, int dimH, int level) {
+CELL **genLevel(COORDS coords) {
 
-    level--;
     int i, j;
     CELL **table;
 
@@ -10,12 +9,7 @@ CELL **genLevel(int dimV, int dimH, int level) {
             .10, .15, .20, .25
     };
 
-    for (i = 0; i < level; i++) {
-        dimH += LEVEL_STEP;
-        dimV += LEVEL_STEP;
-    }
-
-    int mul = dimH * dimV, bombs = roundCstm(percentMap[level] * mul);
+    int mul = dimH * dimV, bombs = roundCstm(percentMap[levelCurrent] * mul);
 
     /*
      * malloc() a dimV * dimH 2 dimensional array.
@@ -46,114 +40,139 @@ CELL **genLevel(int dimV, int dimH, int level) {
     while (bombCount != bombs) {
         int x = dimH * random(), y = dimV * random();
 
-        if (table[y][x].val == '@')
+        if (table[y][x].val == CHAR_IS_BOMB || (coords.cordX == x && coords.cordY == y))
             continue;
-        else {
-            table[y][x].val = '@';
 
-            /*
-             * Math is very lovely
-             * */
+        table[y][x].val = '@';
 
-            /*
-             * Top left
-             * */
-            if (y > 0 && x > 0) {
-                if (table[y - 1][x - 1].val != '@') {
-                    if (table[y - 1][x - 1].val == '.')
-                        table[y - 1][x - 1].val = '1';
-                    else
-                        table[y - 1][x - 1].val++;
-                }
-            }
+        /*
+         * Math is very lovely
+         * */
 
-            /*
-             * Top
-             * */
-            if (y > 0) {
-                if (table[y - 1][x].val != '@') {
-                    if (table[y - 1][x].val == '.')
-                        table[y - 1][x].val = '1';
-                    else
-                        table[y - 1][x].val++;
-                }
-            }
-
-            /*
-             * Top right
-             * */
-            if (y > 0 && x < dimH) {
-                if (table[y - 1][x + 1].val != '@') {
-                    if (table[y - 1][x + 1].val == '.')
-                        table[y - 1][x + 1].val = '1';
-                    else
-                        table[y - 1][x + 1].val++;
-                }
-            }
-
-            /*
-             * Left
-             * */
-            if (x > 0) {
-                if (table[y][x - 1].val != '@') {
-                    if (table[y][x - 1].val == '.')
-                        table[y][x - 1].val = '1';
-                    else
-                        table[y][x - 1].val++;
-                }
-            }
-
-            /*
-             * Right
-             * */
-            if (x < dimH) {
-                if (table[y][x + 1].val != '@') {
-                    if (table[y][x + 1].val == '.')
-                        table[y][x + 1].val = '1';
-                    else
-                        table[y][x + 1].val++;
-                }
-            }
-
-            /*
-             * Bottom left
-             * */
-            if (x > 0 && y < dimV) {
-                if (table[y + 1][x - 1].val != '@') {
-                    if (table[y + 1][x - 1].val == '.')
-                        table[y + 1][x - 1].val = '1';
-                    else
-                        table[y + 1][x - 1].val++;
-                }
-            }
-
-            /*
-             * Bottom
-             * */
-            if (y < dimV) {
-                if (table[y + 1][x].val != '@') {
-                    if (table[y + 1][x].val == '.')
-                        table[y + 1][x].val = '1';
-                    else
-                        table[y + 1][x].val++;
-                }
-            }
-
-            /*
-             * Bottom right
-             * */
-            if (y < dimV && x < dimH) {
-                if (table[y + 1][x].val != '@') {
-                    if (table[y + 1][x].val == '.')
-                        table[y + 1][x].val = '1';
-                    else
-                        table[y + 1][x].val++;
-                }
+        /*
+         * Top left
+         * */
+        if (y > 0 && x > 0) {
+            if (table[y - 1][x - 1].val != CHAR_IS_BOMB) {
+                if (table[y - 1][x - 1].val == '.')
+                    table[y - 1][x - 1].val = '1';
+                else
+                    table[y - 1][x - 1].val++;
             }
         }
+
+        /*
+         * Top
+         * */
+        if (y > 0) {
+            if (table[y - 1][x].val != CHAR_IS_BOMB) {
+                if (table[y - 1][x].val == CHAR_EMPTY)
+                    table[y - 1][x].val = '1';
+                else
+                    table[y - 1][x].val++;
+            }
+        }
+
+        /*
+         * Top right
+         * */
+        if (y > 0 && x < dimH) {
+            if (table[y - 1][x + 1].val != CHAR_IS_BOMB) {
+                if (table[y - 1][x + 1].val == CHAR_EMPTY)
+                    table[y - 1][x + 1].val = '1';
+                else
+                    table[y - 1][x + 1].val++;
+            }
+        }
+
+        /*
+         * Left
+         * */
+        if (x > 0) {
+            if (table[y][x - 1].val != CHAR_IS_BOMB) {
+                if (table[y][x - 1].val == CHAR_EMPTY)
+                    table[y][x - 1].val = '1';
+                else
+                    table[y][x - 1].val++;
+            }
+        }
+
+        /*
+         * Right
+         * */
+        if (x < dimH) {
+            if (table[y][x + 1].val != CHAR_IS_BOMB) {
+                if (table[y][x + 1].val == CHAR_EMPTY)
+                    table[y][x + 1].val = '1';
+                else
+                    table[y][x + 1].val++;
+            }
+        }
+
+        /*
+         * Bottom left
+         * */
+        if (x > 0 && y < dimV) {
+            if (table[y + 1][x - 1].val != CHAR_IS_BOMB) {
+                if (table[y + 1][x - 1].val == CHAR_EMPTY)
+                    table[y + 1][x - 1].val = '1';
+                else
+                    table[y + 1][x - 1].val++;
+            }
+        }
+
+        /*
+         * Bottom
+         * */
+        if (y < dimV) {
+            if (table[y + 1][x].val != CHAR_IS_BOMB) {
+                if (table[y + 1][x].val == CHAR_EMPTY)
+                    table[y + 1][x].val = '1';
+                else
+                    table[y + 1][x].val++;
+            }
+        }
+
+        /*
+         * Bottom right
+         * */
+        if (y < dimV && x < dimH) {
+            if (table[y + 1][x].val != CHAR_IS_BOMB) {
+                if (table[y + 1][x].val == CHAR_EMPTY)
+                    table[y + 1][x].val = '1';
+                else
+                    table[y + 1][x].val++;
+            }
+        }
+
 
         bombCount++;
     }
 
     return table;
+}
+
+void freeGrid(CELL **grid) {
+
+    int i;
+
+    for (i = 0; i < dimV; i++) {
+        free(grid[i]);
+    }
+    free(grid);
+
+}
+
+int countOpenCell(CELL **grid) {
+
+    int i, j, ret = 0;
+
+    for (i = 0; i < dimV; i++) {
+        for (j = 0; j < dimH; j++) {
+            if (grid[i][j].isFound)
+                ret++;
+        }
+    }
+
+    return ret;
 }

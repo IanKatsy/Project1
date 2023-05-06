@@ -16,7 +16,9 @@ void strToUpper(char *string) {
     int i;
 
     for (i = 0; i < len; i++) {
-        *(string + i) = (char) toupper(*(string + i));
+        if (isalpha(*(string + i))) {
+            *(string + i) = (char) toupper(*(string + i));
+        }
     }
 
 }

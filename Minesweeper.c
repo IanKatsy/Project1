@@ -12,7 +12,7 @@
 
 int main(void) {
 
-    int i, dimV, dimH;
+    int i;
     char *getCmd, *level;
 
     srand(time(NULL));
@@ -101,20 +101,75 @@ int main(void) {
 
     } while (!levelCurrent);
 
-    printGrid(NULL, dimV, dimH);
+    clearScreen();
+
+    levelCurrent--;
+
+    for (i = 0; i < levelCurrent; i++) {
+        dimH += LEVEL_STEP;
+        dimV += LEVEL_STEP;
+    }
+
+    printGrid(NULL);
 
     getCmd = readString("0 Blocks are open!\n"
                         "Make your move(s): ");
 
     CMD cmd = parseStr(getCmd);
 
+    free(getCmd);
+
     if (!cmd.cmdCode) {
         return EXIT_SUCCESS;
     }
 
     for ( ; ; ) {
-        CELL **grid = genLevel(dimV, dimH, levelCurrent);
+        CELL **grid = genLevel(cmd.cords);
+
+        bool breakCheck = false;
+        bool openRet;
+
+        for ( ; ; ) {
+            switch (cmd.cmdCode) {
+                case 1:
+                    if (grid[cmd.cords.cordY][cmd.cords.cordX].isFound) {
+                        printf("Can't open a found cell!\n");
+                        break;
+                    }
+
+                    openRet = openCell(grid, cmd.cords);
+                    if (openRet) {
+                        explosion(grid);
+                        breakCheck = true;
+                    }
+
+                    break;
+                case 2:
+                    markCell(grid, cmd.cords);
+                    break;
+                case 3:
+                    cheat(grid, cmd.cords, false);
+                    break;
+
+                default:
+                    break;
+            }
+
+            if (breakCheck)
+                break;
+
+
+
+        }
+
+        freeGrid(grid);
+
+        if (++levelCurrent == 4) {
+            break;
+        }
     }
 
+
+    return 0;
 }
 

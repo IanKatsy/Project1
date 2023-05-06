@@ -18,10 +18,12 @@ CMD parseStr(char *str) {
 
         case 4:
 
-            if (!strncmp(str, "exit", cmdLen))
+            if (!strncmp(str, "EXIT", cmdLen)) {
+                command_p.cmdCode = 0;
                 break;
+            }
 
-            if (!strncmp(str, "open", cmdLen)) {
+            if (!strncmp(str, "OPEN", cmdLen)) {
 
                 command_p.cmdCode = 1;
                 command_p.cords = handleCoords(ptr);
@@ -29,7 +31,7 @@ CMD parseStr(char *str) {
                 break;
             }
 
-            if (!strncmp(str, "mark", cmdLen)) {
+            if (!strncmp(str, "MARK", cmdLen)) {
 
                 command_p.cmdCode = 2;
                 command_p.cords = handleCoords(ptr);
@@ -39,6 +41,12 @@ CMD parseStr(char *str) {
 
             break;
         case 5:
+
+            if (!strncmp(str, "CHEAT", cmdLen)) {
+                command_p.cmdCode = 3;
+                command_p.cords = handleCoords(ptr);
+            }
+
             break;
         default:
             command_p.cmdCode = -1;
@@ -77,7 +85,7 @@ COORDS handleCoords(char *str) {
             parCntr++;
 
         if (isalnum(*ptr))
-            BAD_RET_COORDS
+            BAD_RET_COORDS;
 
         ptr++;
     }
@@ -87,7 +95,7 @@ COORDS handleCoords(char *str) {
      * */
 
     if (parCntr != 1 || buffOverflowCheck == ptr - str)
-        BAD_RET_COORDS
+        BAD_RET_COORDS;
 
     /*
      * First coordinate
@@ -104,7 +112,7 @@ COORDS handleCoords(char *str) {
      * */
 
     if (buffOverflowCheck == ptr - str)
-        BAD_RET_COORDS
+        BAD_RET_COORDS;
 
     /*
      * Second coordinate
@@ -122,7 +130,7 @@ COORDS handleCoords(char *str) {
             parCntr++;
 
         if (isalpha(*ptr))
-            BAD_RET_COORDS
+            BAD_RET_COORDS;
 
         ptr++;
     }
@@ -132,10 +140,10 @@ COORDS handleCoords(char *str) {
      * */
 
     if (parCntr != 2 || buffOverflowCheck == ptr - str)
-        BAD_RET_COORDS
+        BAD_RET_COORDS;
 
     if (digCntr != 2)
-        BAD_RET_COORDS
+        BAD_RET_COORDS;
 
     while (buffOverflowCheck != ptr - str) {
         if (!isspace(*ptr) && !isblank(*ptr))
@@ -143,7 +151,13 @@ COORDS handleCoords(char *str) {
     }
 
     if (postParenthesesHandle)
-        BAD_RET_COORDS
+        BAD_RET_COORDS;
+
+    if (coords.cordY > dimV || coords.cordY < 0)
+        BAD_RET_COORDS;
+
+    if (coords.cordX > dimH || coords.cordX < 0)
+        BAD_RET_COORDS;
 
     return coords;
 }

@@ -32,5 +32,7 @@ char *readString(char *msg) {
 
     } while (ch != '\0');
 
+    strToUpper(str);
+
     return str;
 }

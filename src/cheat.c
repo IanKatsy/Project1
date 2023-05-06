@@ -1,7 +1,7 @@
 #include "../Minesweeper.h"
 
 
-void cheat(CELL **grid, int cordY, int cordX, bool reset) {
+void cheat(CELL **grid, COORDS coords, bool reset) {
 
     static int counter;
 
@@ -10,12 +10,15 @@ void cheat(CELL **grid, int cordY, int cordX, bool reset) {
         return;
     }
 
-    if (counter > cheatMap[levelCurrent - 1]){
+    if (counter > cheatMap[levelCurrent]){
         printf("You cannot cheat anymore!!!\n");
         return;
     }
 
-    printf("In position (%d, %d) there is a %c!\n", cordY, cordX, grid[cordY][cordX].val);
+    printf("In position (%d, %d) there is a %c!\n",
+           coords.cordY,
+           coords.cordX,
+           grid[coords.cordY][coords.cordX].val);
     counter++;
 
 }

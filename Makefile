@@ -1,6 +1,6 @@
 CC=gcc
 
-SRC= src/cheat.c src/levelHandlers.c src/mark.c src/parseStr.c src/printGrid.c src/readString.c src/util.c
+SRC=$(wildcard src/*.c)
 
 .PHONY: all
 all: $(OBJS) Minesweeper

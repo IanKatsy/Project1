@@ -1,12 +1,12 @@
 #include "../Minesweeper.h"
 
-void printGrid(CELL **grid, int rows, int cols) {
+void printGrid(CELL **grid) {
 
     int i, j, printRet = 0;
 
     printRet += printf("%4c", ' ');
 
-    for (i = 0; i < cols; i++) {
+    for (i = 0; i < dimH; i++) {
         printRet += printf("%*d", WIDTH_DEFAULT, i + 1);
     }
     putchar('\n');
@@ -16,11 +16,11 @@ void printGrid(CELL **grid, int rows, int cols) {
     }
     putchar('\n');
 
-    for (i = 0; i < rows; i++) {
+    for (i = 0; i < dimV; i++) {
 
         printf("%*d| ", WIDTH_DEFAULT, i + 1);
 
-        for (j = 0; j < cols; j++) {
+        for (j = 0; j < dimH; j++) {
             if (grid != NULL) {
                 if (grid[i][j].isMarked) {
                     printf("%*c ", WIDTH_DEFAULT, CHAR_IS_BOMB);
@@ -76,5 +76,8 @@ void printGrid(CELL **grid, int rows, int cols) {
         putchar('\n');
 
     }
+
+}
+void explosion(CELL **grid){
 
 }
