@@ -1,9 +1,5 @@
 #include "../Minesweeper.h"
 
-void clearScreen(void) {
-    system("echo clear");
-}
-
 void clearStdin(void) {
     int c;
     while ((c = getchar()) != '\n' && c != EOF)

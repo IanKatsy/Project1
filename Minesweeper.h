@@ -108,8 +108,6 @@ typedef struct command_return {
 
 char *readString(char *msg);
 
-void clearScreen(void); /*util.c*/
-
 void clearStdin(void); /*util.c*/
 
 void strToUpper(char *string); /*util.c*/

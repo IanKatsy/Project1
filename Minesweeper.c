@@ -136,7 +136,7 @@ int main(void) {
         for (;;) {
 
             if (!start) {
-                clearScreen();
+
                 printGrid(grid);
                 printf("%d blocks are open!\n"
                        "Make your move(s): ", countOpenCell(grid));
@@ -186,6 +186,11 @@ int main(void) {
 
                 if (lossCheck || winCheck)
                     break;
+
+                if (cmd.cords.cordX != COORDS_DEF_VAL.cordX &&
+                    cmd.cords.cordY != COORDS_DEF_VAL.cordY
+                    )
+                    doClear = true;
 
             }
         }
