@@ -81,7 +81,19 @@ void printGrid(CELL **grid) {
 
 }
 void explosion(CELL **grid) {
-    int i, j;
+    int i, j, printRet = 0;
+
+    printRet += printf("%4c", ' ');
+
+    for (i = 0; i < dimH; i++) {
+        printRet += printf("%*d", WIDTH_DEFAULT, i + 1);
+    }
+    putchar('\n');
+
+    for (i = 0; i < printRet; i++) {
+        putchar('-');
+    }
+    putchar('\n');
 
     for (i = 0; i < dimV; i++) {
 
@@ -132,8 +144,10 @@ void explosion(CELL **grid) {
                         printf("%*s", WIDTH_DEFAULT, MS_EIGHT);
                         break;
 
+
                 }
             }
         }
+        putchar('\n');
     }
 }
