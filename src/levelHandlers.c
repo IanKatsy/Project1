@@ -52,7 +52,7 @@ CELL **genLevel(COORDS coords) {
         /*
          * Top left
          * */
-        if (y > 0 && x > 0) {
+        if (y > 1 && x > 1) {
             if (table[y - 1][x - 1].val != CHAR_IS_BOMB) {
                 if (table[y - 1][x - 1].val == '.')
                     table[y - 1][x - 1].val = '1';
@@ -64,7 +64,7 @@ CELL **genLevel(COORDS coords) {
         /*
          * Top
          * */
-        if (y > 0) {
+        if (y > 1) {
             if (table[y - 1][x].val != CHAR_IS_BOMB) {
                 if (table[y - 1][x].val == CHAR_EMPTY)
                     table[y - 1][x].val = '1';
@@ -76,7 +76,7 @@ CELL **genLevel(COORDS coords) {
         /*
          * Top right
          * */
-        if (y > 0 && x < dimH) {
+        if (y > 1 && x < (dimH - 1)) {
             if (table[y - 1][x + 1].val != CHAR_IS_BOMB) {
                 if (table[y - 1][x + 1].val == CHAR_EMPTY)
                     table[y - 1][x + 1].val = '1';
@@ -88,7 +88,7 @@ CELL **genLevel(COORDS coords) {
         /*
          * Left
          * */
-        if (x > 0) {
+        if (x > 1) {
             if (table[y][x - 1].val != CHAR_IS_BOMB) {
                 if (table[y][x - 1].val == CHAR_EMPTY)
                     table[y][x - 1].val = '1';
@@ -100,7 +100,7 @@ CELL **genLevel(COORDS coords) {
         /*
          * Right
          * */
-        if (x < dimH) {
+        if (x < (dimH - 1)) {
             if (table[y][x + 1].val != CHAR_IS_BOMB) {
                 if (table[y][x + 1].val == CHAR_EMPTY)
                     table[y][x + 1].val = '1';
@@ -112,7 +112,7 @@ CELL **genLevel(COORDS coords) {
         /*
          * Bottom left
          * */
-        if (x > 0 && y < dimV) {
+        if (x > 1 && y < (dimV - 1)) {
             if (table[y + 1][x - 1].val != CHAR_IS_BOMB) {
                 if (table[y + 1][x - 1].val == CHAR_EMPTY)
                     table[y + 1][x - 1].val = '1';
@@ -124,7 +124,7 @@ CELL **genLevel(COORDS coords) {
         /*
          * Bottom
          * */
-        if (y < dimV) {
+        if (y < (dimV - 1)) {
             if (table[y + 1][x].val != CHAR_IS_BOMB) {
                 if (table[y + 1][x].val == CHAR_EMPTY)
                     table[y + 1][x].val = '1';
@@ -136,7 +136,7 @@ CELL **genLevel(COORDS coords) {
         /*
          * Bottom right
          * */
-        if (y < dimV && x < dimH) {
+        if (y < (dimV - 1) && x < (dimH - 1)) {
             if (table[y + 1][x].val != CHAR_IS_BOMB) {
                 if (table[y + 1][x].val == CHAR_EMPTY)
                     table[y + 1][x].val = '1';
@@ -170,6 +170,20 @@ int countOpenCell(CELL **grid) {
     for (i = 0; i < dimV; i++) {
         for (j = 0; j < dimH; j++) {
             if (grid[i][j].isFound)
+                ret++;
+        }
+    }
+
+    return ret;
+}
+
+int countFreeCell(CELL **grid) {
+
+    int i, j, ret = 0;
+
+    for (i = 0; i < dimV; i++) {
+        for (j = 0; j < dimH; j++) {
+            if (grid[i][j].val != '@')
                 ret++;
         }
     }

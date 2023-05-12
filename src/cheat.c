@@ -19,7 +19,9 @@ void cheat(CELL **grid, COORDS coords, bool reset) {
            coords.cordY,
            coords.cordX,
            grid[coords.cordY][coords.cordX].val);
+
     counter++;
+    cheatCount++;
 
 }
 

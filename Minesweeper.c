@@ -12,6 +12,7 @@
 
 int main(void) {
 
+    bool start = true;
     int i;
     char *getCmd, *level;
 
@@ -51,8 +52,8 @@ int main(void) {
 
     do {
 
-         level = readString("Enter the starting level\n"
-                   "Easy, Normal, Hard, Impossible: ");
+        level = readString("Enter the starting level\n"
+                           "Easy, Normal, Hard, Impossible: ");
 
         strToUpper(level);
 
@@ -110,26 +111,41 @@ int main(void) {
         dimV += LEVEL_STEP;
     }
 
-    printGrid(NULL);
+    for (;;) {
+        start = true;
 
-    getCmd = readString("0 Blocks are open!\n"
-                        "Make your move(s): ");
+        printGrid(NULL);
 
-    CMD cmd = parseStr(getCmd);
+        getCmd = readString("0 Blocks are open!\n"
+                            "Make your move(s): ");
 
-    free(getCmd);
+        CMD cmd = parseStr(getCmd);
 
-    if (!cmd.cmdCode) {
-        return EXIT_SUCCESS;
-    }
+        free(getCmd);
 
-    for ( ; ; ) {
+        if (!cmd.cmdCode) {
+            return EXIT_SUCCESS;
+        }
+
         CELL **grid = genLevel(cmd.cords);
+        cheat(NULL, COORDS_DEF_VAL, true);
 
-        bool breakCheck = false;
+        bool lossCheck = false, winCheck = false;
         bool openRet;
 
-        for ( ; ; ) {
+        for (;;) {
+
+            if (!start) {
+                clearScreen();
+                printGrid(grid);
+                printf("%d blocks are open!\n"
+                       "Make your move(s): ", countOpenCell(grid));
+                getCmd = readString(NULL);
+
+            }
+
+            start = false;
+
             switch (cmd.cmdCode) {
                 case 1:
                     if (grid[cmd.cords.cordY][cmd.cords.cordX].isFound) {
@@ -140,13 +156,22 @@ int main(void) {
                     openRet = openCell(grid, cmd.cords);
                     if (openRet) {
                         explosion(grid);
-                        breakCheck = true;
+                        lossCheck = true;
+                    }
+
+                    /*
+                     * Check for game end
+                     * */
+                    if (countOpenCell(grid) == countFreeCell(grid)) {
+                        winCheck = true;
                     }
 
                     break;
+
                 case 2:
                     markCell(grid, cmd.cords);
                     break;
+
                 case 3:
                     cheat(grid, cmd.cords, false);
                     break;
@@ -155,16 +180,22 @@ int main(void) {
                     break;
             }
 
-            if (breakCheck)
+            if (lossCheck || winCheck)
                 break;
-
-
 
         }
 
         freeGrid(grid);
 
-        if (++levelCurrent == 4) {
+        levelCurrent++;
+        dimV++;
+        dimH++;
+
+        if (levelCurrent == 4) {
+            printf("Congratulations!\n"
+                   "You just beat the impossible level!\n"
+                   "Original dimensions: %d * %d, cheated %d time(s)!\n", dimV - 4 * LEVEL_STEP, dimH - 4 * LEVEL_STEP,
+                   cheatCount);
             break;
         }
     }

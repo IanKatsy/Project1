@@ -64,8 +64,6 @@ void printGrid(CELL **grid) {
                             printf("%*s", WIDTH_DEFAULT, MS_EIGHT);
                             break;
 
-                        case CHAR_IS_BOMB:
-                            break;
                     }
                 }
             } else {

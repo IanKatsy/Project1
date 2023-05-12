@@ -1,5 +1,14 @@
 #include "../Minesweeper.h"
 
+/*
+ * file specific defines
+ * */
+
+#ifdef MS_DEBUG_INFO
+#define SHOW_CORD_REC(x) printf("%d \n", x);
+#elif
+#define SHOW_CORD_REC(x)
+#endif
 CMD parseStr(char *str) {
     CMD command_p = {
         0, 0, 0
@@ -61,11 +70,6 @@ COORDS handleCoords(char *str) {
      * A very sad mess :(
      * */
 
-    const COORDS _bad_ret = {
-            -1,
-            -1
-    };
-
     COORDS coords = {
             -1,
             -1
@@ -103,6 +107,7 @@ COORDS handleCoords(char *str) {
 
     digCntr++;
     coords.cordY = (int) strtol(ptr, &ptr, 10);
+    SHOW_CORD_REC(coords.cordY)
 
     while (*ptr != ',' || buffOverflowCheck != ptr - str)
         ptr++;
@@ -120,6 +125,7 @@ COORDS handleCoords(char *str) {
 
     digCntr++;
     coords.cordX = (int) strtol(ptr, &ptr, 10);
+    SHOW_CORD_REC(coords.cordX)
 
     /*
      * Check for second parentheses
@@ -153,10 +159,10 @@ COORDS handleCoords(char *str) {
     if (postParenthesesHandle)
         BAD_RET_COORDS;
 
-    if (coords.cordY > dimV || coords.cordY < 0)
+    if (coords.cordY > dimV || coords.cordY < 1)
         BAD_RET_COORDS;
 
-    if (coords.cordX > dimH || coords.cordX < 0)
+    if (coords.cordX > dimH || coords.cordX < 1)
         BAD_RET_COORDS;
 
     return coords;
