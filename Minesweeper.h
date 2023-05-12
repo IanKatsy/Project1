@@ -1,13 +1,13 @@
 #ifndef PROJECT1_MINESWEEPER_H
 #define PROJECT1_MINESWEEPER_H
 
-#define MS_DEBUG_INFO 1
-
-#if MS_DEBUG_INFO
-
-#define CELL_DEBUG_SET
-
-#endif
+//// #define MS_DEBUG_INFO 0
+//
+//#if MS_DEBUG_INFO
+//
+//#define CELL_DEBUG_SET
+//
+//#endif
 
 #define MS_MIN_GRID_X 9
 #define MS_MIN_GRID_Y 9
@@ -45,18 +45,18 @@
 #define ANSI_STYLE_ITALIC       "\x1b[3m"
 #define ANSI_STYLE_UNDERLINE    "\x1b[4m"
 
-#define MS_ONE              ANSI_COLOR_BLUE                         "1"     ANSI_RESET_ALL
-#define MS_TWO              ANSI_COLOR_GREEN                        "2"     ANSI_RESET_ALL
-#define MS_THREE            ANSI_COLOR_RED                          "3"     ANSI_RESET_ALL
-#define MS_FOUR             ANSI_COLOR_BLUE     ANSI_STYLE_BOLD     "4"     ANSI_RESET_ALL
-#define MS_FIVE             ANSI_COLOR_RED      ANSI_STYLE_BOLD     "5"     ANSI_RESET_ALL
-#define MS_SIX              ANSI_COLOR_CYAN                         "6"     ANSI_RESET_ALL
-#define MS_SEVEN            ANSI_COLOR_MAGENTA                      "7"     ANSI_RESET_ALL
-#define MS_EIGHT            ANSI_COLOR_WHITE                        "8"     ANSI_RESET_ALL
+#define MS_ONE              ANSI_COLOR_BLUE                         " 1"     ANSI_RESET_ALL
+#define MS_TWO              ANSI_COLOR_GREEN                        " 2"     ANSI_RESET_ALL
+#define MS_THREE            ANSI_COLOR_RED                          " 3"     ANSI_RESET_ALL
+#define MS_FOUR             ANSI_COLOR_BLUE     ANSI_STYLE_BOLD     " 4"     ANSI_RESET_ALL
+#define MS_FIVE             ANSI_COLOR_RED      ANSI_STYLE_BOLD     " 5"     ANSI_RESET_ALL
+#define MS_SIX              ANSI_COLOR_CYAN                         " 6"     ANSI_RESET_ALL
+#define MS_SEVEN            ANSI_COLOR_MAGENTA                      " 7"     ANSI_RESET_ALL
+#define MS_EIGHT            ANSI_COLOR_WHITE                        " 8"     ANSI_RESET_ALL
 
-#define EXPL_BOMB_FOUND     ANSI_COLOR_GREEN                        "@"     ANSI_RESET_ALL
-#define EXPL_BOMB_HIDDEN    ANSI_COLOR_RED                          "@"     ANSI_RESET_ALL
-#define EXPL_ISNT_BOMB      ANSI_COLOR_RED                          "X"     ANSI_RESET_ALL
+#define EXPL_BOMB_FOUND     ANSI_COLOR_GREEN                        " @"     ANSI_RESET_ALL
+#define EXPL_BOMB_HIDDEN    ANSI_COLOR_RED                          " @"     ANSI_RESET_ALL
+#define EXPL_ISNT_BOMB      ANSI_COLOR_RED                          " X"     ANSI_RESET_ALL
 
 #endif /*CL_OUT_WRK*/
 
@@ -81,6 +81,8 @@
 
 
 extern int levelCurrent, dimV, dimH;
+
+extern const char *level_name[];
 
 typedef struct minesweeper_cell {
     char val;

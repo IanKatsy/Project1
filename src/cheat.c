@@ -16,8 +16,8 @@ void cheat(CELL **grid, COORDS coords, bool reset) {
     }
 
     printf("In position (%d, %d) there is a %c!\n",
-           coords.cordY,
-           coords.cordX,
+           coords.cordY + 1,
+           coords.cordX + 1,
            grid[coords.cordY][coords.cordX].val);
 
     counter++;

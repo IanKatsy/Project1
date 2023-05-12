@@ -38,7 +38,7 @@ CELL **genLevel(COORDS coords) {
     int bombCount = 0;
 
     while (bombCount != bombs) {
-        int x = dimH * random(), y = dimV * random();
+        int x = (dimH - 1) * random(), y = (dimV - 1) * random();
 
         if (table[y][x].val == CHAR_IS_BOMB || (coords.cordX == x && coords.cordY == y))
             continue;
@@ -52,7 +52,7 @@ CELL **genLevel(COORDS coords) {
         /*
          * Top left
          * */
-        if (y > 1 && x > 1) {
+        if (y > 0 && x > 0) {
             if (table[y - 1][x - 1].val != CHAR_IS_BOMB) {
                 if (table[y - 1][x - 1].val == '.')
                     table[y - 1][x - 1].val = '1';
@@ -64,7 +64,7 @@ CELL **genLevel(COORDS coords) {
         /*
          * Top
          * */
-        if (y > 1) {
+        if (y > 0) {
             if (table[y - 1][x].val != CHAR_IS_BOMB) {
                 if (table[y - 1][x].val == CHAR_EMPTY)
                     table[y - 1][x].val = '1';
@@ -76,7 +76,7 @@ CELL **genLevel(COORDS coords) {
         /*
          * Top right
          * */
-        if (y > 1 && x < (dimH - 1)) {
+        if (y > 0 && x < (dimH - 1)) {
             if (table[y - 1][x + 1].val != CHAR_IS_BOMB) {
                 if (table[y - 1][x + 1].val == CHAR_EMPTY)
                     table[y - 1][x + 1].val = '1';
@@ -88,7 +88,7 @@ CELL **genLevel(COORDS coords) {
         /*
          * Left
          * */
-        if (x > 1) {
+        if (x > 0) {
             if (table[y][x - 1].val != CHAR_IS_BOMB) {
                 if (table[y][x - 1].val == CHAR_EMPTY)
                     table[y][x - 1].val = '1';
@@ -112,7 +112,7 @@ CELL **genLevel(COORDS coords) {
         /*
          * Bottom left
          * */
-        if (x > 1 && y < (dimV - 1)) {
+        if (x > 0 && y < (dimV - 1)) {
             if (table[y + 1][x - 1].val != CHAR_IS_BOMB) {
                 if (table[y + 1][x - 1].val == CHAR_EMPTY)
                     table[y + 1][x - 1].val = '1';
@@ -137,11 +137,11 @@ CELL **genLevel(COORDS coords) {
          * Bottom right
          * */
         if (y < (dimV - 1) && x < (dimH - 1)) {
-            if (table[y + 1][x].val != CHAR_IS_BOMB) {
-                if (table[y + 1][x].val == CHAR_EMPTY)
-                    table[y + 1][x].val = '1';
+            if (table[y + 1][x + 1].val != CHAR_IS_BOMB) {
+                if (table[y + 1][x + 1].val == CHAR_EMPTY)
+                    table[y + 1][x + 1].val = '1';
                 else
-                    table[y + 1][x].val++;
+                    table[y + 1][x + 1].val++;
             }
         }
 

@@ -42,7 +42,7 @@ bool openCell(CELL **grid, COORDS coords) {
         /*
          * Top right
          * */
-        if (y > 0 && x < dimH) {
+        if (y > 0 && x < dimH - 1) {
             COORDS tR = {coords.cordY - 1, coords.cordX + 1};
             openCell(grid, tR);
         }
@@ -58,7 +58,7 @@ bool openCell(CELL **grid, COORDS coords) {
         /*
          * Right
          * */
-        if (x < dimH) {
+        if (x < dimH - 1) {
             COORDS r = {coords.cordY, coords.cordX + 1};
             openCell(grid, r);
         }
@@ -66,7 +66,7 @@ bool openCell(CELL **grid, COORDS coords) {
         /*
          * Bottom left
          * */
-        if (x > 0 && y < dimV) {
+        if (x > 0 && y < dimV - 1) {
             COORDS bL = {coords.cordY + 1, coords.cordX - 1};
             openCell(grid, bL);
         }
@@ -74,7 +74,7 @@ bool openCell(CELL **grid, COORDS coords) {
         /*
          * Bottom
          * */
-        if (y < dimV) {
+        if (y < dimV - 1) {
             COORDS b = {coords.cordY + 1, coords.cordX};
             openCell(grid, b);
         }
@@ -82,7 +82,7 @@ bool openCell(CELL **grid, COORDS coords) {
         /*
          * Bottom right
          * */
-        if (y < dimV && x < dimH) {
+        if (y < dimV - 1 && x < dimH - 1) {
             COORDS bR = {coords.cordY + 1, coords.cordX + 1};
             openCell(grid, bR);
         }

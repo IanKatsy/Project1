@@ -1,7 +1,7 @@
 #include "../Minesweeper.h"
 
 void clearScreen(void) {
-    system("clear");
+    system("echo clear");
 }
 
 void clearStdin(void) {

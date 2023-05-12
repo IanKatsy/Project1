@@ -23,7 +23,7 @@ void printGrid(CELL **grid) {
         for (j = 0; j < dimH; j++) {
             if (grid != NULL) {
                 if (grid[i][j].isMarked) {
-                    printf("%*c ", WIDTH_DEFAULT, CHAR_IS_BOMB);
+                    printf("%*c", WIDTH_DEFAULT, CHAR_IS_BOMB);
                 } else if (grid[i][j].isFound == 0) {
                     printf("%*c", 2, CHAR_NOT_TOUCHED);
                 } else {
@@ -64,6 +64,10 @@ void printGrid(CELL **grid) {
                             printf("%*s", WIDTH_DEFAULT, MS_EIGHT);
                             break;
 
+                        case '@':
+                            printf("%*s", WIDTH_DEFAULT, " @");
+                            break;
+
                     }
                 }
             } else {
@@ -80,6 +84,9 @@ void explosion(CELL **grid) {
     int i, j;
 
     for (i = 0; i < dimV; i++) {
+
+        printf("%*d| ", WIDTH_DEFAULT, i + 1);
+
         for (j = 0; j < dimH; j++) {
             if (grid[i][j].isMarked && grid[i][j].val == '@') {
                 printf("%*s", WIDTH_DEFAULT, EXPL_BOMB_FOUND);

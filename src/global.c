@@ -1,5 +1,7 @@
 #include "../Minesweeper.h"
 
+const char *level_name[] = {"Easy", "Normal", "Hard", "Impossible"};
+
 int levelCurrent = 0, dimV = 0, dimH = 0;
 
 COORDS placeholderCoords = {-1, -1};
